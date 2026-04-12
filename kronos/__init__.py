@@ -9,6 +9,9 @@ Example usage:
     >>> model = KronosModel()
     >>> model.fit(train_data)
     >>> predictions = model.predict(test_data)
+
+Note: I'm using this fork primarily for crypto market experiments.
+Most of my work is in the examples/ directory.
 """
 
 from kronos.model import KronosModel
