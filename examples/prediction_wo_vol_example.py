@@ -47,7 +47,8 @@ x_timestamp = df.loc[:lookback-1, 'timestamps']
 y_timestamp = df.loc[lookback:lookback+pred_len-1, 'timestamps']
 
 # 4. Make Prediction
-# Increased sample_count to 3 to get a better average prediction
+# Increased sample_count to 5 for a more stable average prediction;
+# found that 3 was occasionally noisy on this dataset.
 pred_df = predictor.predict(
     df=x_df,
     x_timestamp=x_timestamp,
@@ -55,7 +56,7 @@ pred_df = predictor.predict(
     pred_len=pred_len,
     T=1.0,
     top_p=0.9,
-    sample_count=3,
+    sample_count=5,
     verbose=True
 )
 
