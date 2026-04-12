@@ -12,11 +12,14 @@ Example usage:
 
 Note: I'm using this fork primarily for crypto market experiments.
 Most of my work is in the examples/ directory.
+
+Personal note: added preprocess_ohlcv and scale_features to __all__
+so they're easier to import directly when doing quick experiments.
 """
 
 from kronos.model import KronosModel
 from kronos.data import DataLoader, preprocess_ohlcv
-from kronos.utils import normalize, denormalize
+from kronos.utils import normalize, denormalize, scale_features
 
 __version__ = "0.1.0"
 __author__ = "Kronos Contributors"
@@ -28,4 +31,5 @@ __all__ = [
     "preprocess_ohlcv",
     "normalize",
     "denormalize",
+    "scale_features",  # handy for crypto OHLCV preprocessing
 ]
