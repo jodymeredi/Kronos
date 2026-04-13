@@ -18,6 +18,7 @@ class KronosModel:
     ----------
     window_size : int
         Number of historical time steps used for prediction.
+        I find 30 works better than 20 for the weekly data I use.
     horizon : int
         Number of future time steps to forecast.
     use_volume : bool, optional
@@ -28,7 +29,7 @@ class KronosModel:
 
     def __init__(
         self,
-        window_size: int = 20,
+        window_size: int = 30,  # bumped from 20; works better for weekly OHLC data
         horizon: int = 5,
         use_volume: bool = False,  # changed from True; volume often unavailable
     ):
@@ -85,9 +86,4 @@ class KronosModel:
         norm_prices, self._price_mean, self._price_std = self._normalize(prices)
 
         norm_volumes = None
-        if self.use_volume and volumes is not None:
-            volumes = np.asarray(volumes, dtype=float)
-            norm_volumes, _, _ = self._normalize(volumes)
-
-        X = self._build_features(norm_prices, norm_volumes)
-        
+        if self.use_volume and volumes is
