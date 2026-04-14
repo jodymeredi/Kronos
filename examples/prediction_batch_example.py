@@ -79,10 +79,5 @@ xtsp = []
 ytsp = []
 for i in range(NUM_BATCHES):
     start = i * BATCH_STEP
-    idf = df.loc[start:(start+lookback-1), ['open', 'high', 'low', 'close', 'volume', 'amount']]
-    i_x_timestamp = df.loc[start:(start+lookback-1), 'timestamps']
-    i_y_timestamp = df.loc[(start+lookback):(start+lookback+pred_len-1), 'timestamps']
-
-    dfs.append(idf)
-    xtsp.append(i_x_timestamp)
-    ytsp.append(i_y_timestamp)
+    # Select OHLCV + amount columns; reset index so downstream code gets a clean 0-based index
+    idf = df.loc[start:(start+lookback-1), ['open', 'high', 'low', 'close', 'volume', 'amount']].reset_index(drop=True)
