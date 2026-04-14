@@ -66,7 +66,4 @@
     <img src="figures/overview.png" alt="" align="center" width="700px" />
 </p>
 
-> **Personal note:** I'm using this fork primarily to experiment with fine-tuning Kronos on crypto exchange data (Binance/Coinbase). The two-stage tokenizer approach is particularly interesting for high-frequency data — planning to test with 1m and 5m intervals.
-
-## ✨ Live Demo 
-We have set up a live demo to visualize Kronos
+> **Personal note:** I'm using this fork primarily to experiment with fine-tuning Kronos on crypto market data (BTC/ETH daily candles). My focus is on the prediction task — will update this section with results once I have something worth sharing.
