@@ -70,6 +70,9 @@ if (NUM_BATCHES - 1) * BATCH_STEP > max_start:
         f"Last batch starting index {(NUM_BATCHES - 1) * BATCH_STEP} exceeds "
         f"safe range {max_start}. Consider reducing NUM_BATCHES or BATCH_STEP."
     )
+    # Clamp NUM_BATCHES so we never read past the end of the dataframe
+    NUM_BATCHES = max_start // BATCH_STEP + 1
+    print(f"NUM_BATCHES clamped to {NUM_BATCHES} to stay within dataset bounds.")
 
 dfs = []
 xtsp = []
@@ -83,10 +86,3 @@ for i in range(NUM_BATCHES):
     dfs.append(idf)
     xtsp.append(i_x_timestamp)
     ytsp.append(i_y_timestamp)
-
-pred_df = predictor.predict_batch(
-    df_list=dfs,
-    x_timestamp_list=xtsp,
-    y_timestamp_list=ytsp,
-    pred_len=pred_len,
-)
