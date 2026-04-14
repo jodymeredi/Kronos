@@ -62,6 +62,15 @@ NUM_BATCHES = 10
 # overlap by half a window, giving smoother coverage of the dataset
 BATCH_STEP = 200
 
+# Sanity check: make sure we don't run off the end of the dataset
+max_start = len(df) - lookback - pred_len
+if (NUM_BATCHES - 1) * BATCH_STEP > max_start:
+    import warnings
+    warnings.warn(
+        f"Last batch starting index {(NUM_BATCHES - 1) * BATCH_STEP} exceeds "
+        f"safe range {max_start}. Consider reducing NUM_BATCHES or BATCH_STEP."
+    )
+
 dfs = []
 xtsp = []
 ytsp = []
