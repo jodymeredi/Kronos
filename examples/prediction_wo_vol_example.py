@@ -49,12 +49,14 @@ y_timestamp = df.loc[lookback:lookback+pred_len-1, 'timestamps']
 # 4. Make Prediction
 # Increased sample_count to 5 for a more stable average prediction;
 # found that 3 was occasionally noisy on this dataset.
+# Note: lowering temperature slightly to 0.8 to reduce variance in outputs --
+# the default 1.0 felt a bit too random for this particular stock.
 pred_df = predictor.predict(
     df=x_df,
     x_timestamp=x_timestamp,
     y_timestamp=y_timestamp,
     pred_len=pred_len,
-    T=1.0,
+    T=0.8,
     top_p=0.9,
     sample_count=5,
     verbose=True
