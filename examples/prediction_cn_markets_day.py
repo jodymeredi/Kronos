@@ -19,6 +19,11 @@ Output:
 Example:
     bash> python prediction_cn_markets_day.py --symbol 000001
     python3 prediction_cn_markets_day.py --symbol 002594
+
+Notes (personal):
+    - Tested with akshare >= 1.12.0; older versions may return different column names.
+    - Using adjust="" (unadjusted prices) intentionally — forward-adjusted prices
+      can distort older data for index-like symbols.
 """
 
 import os
@@ -43,7 +48,7 @@ LOOKBACK = 400
 PRED_LEN = 60   # reduced from 120 — 60 trading days (~3 months) feels more practical
 T = 1.0
 TOP_P = 0.9
-SAMPLE_COUNT = 1
+SAMPLE_COUNT = 20  # increased from 1 — averaging more samples reduces noise in predictions
 
 def load_data(symbol: str) -> pd.DataFrame:
     print(f"📥 Fetching {symbol} daily data from akshare ...")
@@ -99,6 +104,4 @@ def load_data(symbol: str) -> pd.DataFrame:
 
     # Fix missing amount
     if df["amount"].isna().all() or (df["amount"] == 0).all():
-        df["amount"] = df["close"] * df["volume"]
-
-    print(f"✅ Data loaded: {l
+        d
