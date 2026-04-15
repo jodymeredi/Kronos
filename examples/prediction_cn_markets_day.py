@@ -24,6 +24,8 @@ Notes (personal):
     - Tested with akshare >= 1.12.0; older versions may return different column names.
     - Using adjust="" (unadjusted prices) intentionally — forward-adjusted prices
       can distort older data for index-like symbols.
+    - SAMPLE_COUNT=30 gives noticeably smoother prediction bands vs the original 20,
+      at the cost of ~1.5x inference time on CPU. Worth it for exploratory analysis.
 """
 
 import os
@@ -48,7 +50,7 @@ LOOKBACK = 400
 PRED_LEN = 60   # reduced from 120 — 60 trading days (~3 months) feels more practical
 T = 1.0
 TOP_P = 0.9
-SAMPLE_COUNT = 20  # increased from 1 — averaging more samples reduces noise in predictions
+SAMPLE_COUNT = 30  # bumped from 20 — empirically smoother confidence intervals, acceptable CPU overhead
 
 def load_data(symbol: str) -> pd.DataFrame:
     print(f"📥 Fetching {symbol} daily data from akshare ...")
@@ -96,12 +98,4 @@ def load_data(symbol: str) -> pd.DataFrame:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
     # Fix invalid open values
-    open_bad = (df["open"] == 0) | (df["open"].isna())
-    if open_bad.any():
-        print(f"⚠️  Fixed {open_bad.sum()} invalid open values.")
-        df.loc[open_bad, "open"] = df["close"].shift(1)
-        df["open"].fillna(df["close"], inplace=True)
-
-    # Fix missing amount
-    if df["amount"].isna().all() or (df["amount"] == 0).all():
-        d
+    open_bad = (df["open"] == 0) | 
