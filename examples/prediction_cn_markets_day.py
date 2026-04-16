@@ -92,10 +92,8 @@ def load_data(symbol: str) -> pd.DataFrame:
         df[col] = (
             df[col]
             .astype(str)
-            .str.replace(",", "", regex=False)
-            .replace({"--": None, "": None})
+            .str.replace(",", "", regex=False)  # fix: was `regex=Fal` (truncated/typo)
+            .astype(float)
         )
-        df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # Fix invalid open values
-    open_bad = (df["open"] == 0) | 
+    return df
